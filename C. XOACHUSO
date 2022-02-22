@@ -1,0 +1,21 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+string s;
+int k;
+
+main()
+{
+	tangToc;
+	cin >> s >> k;
+	int n = s.size(), tmp = 0;
+	
+	for(int ss = n-k; ss >= 1; ss--)
+	{
+		for(int i = tmp+1; i < n-ss+1; i++)
+			if(s[tmp] < s[i]) tmp = i;
+		cout << s[tmp++];
+	}
+}
