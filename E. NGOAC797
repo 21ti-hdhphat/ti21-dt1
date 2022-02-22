@@ -1,0 +1,72 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int t, ii;
+string s;
+
+main()
+{
+	tangToc;
+	cin >> t;
+	while(t--)
+	{
+		bool valid = true;
+		cin >> s;
+		
+		ii = 0;
+		string p1(150, 0), p2(150, 0), p3(150, 0);
+		
+		for(int i = 0; i < s.size() && valid; i++)
+		{
+			if(s[i] == '(')
+			{
+				ii++;
+				p1[ii]++;
+			}
+			if(s[i] == ')')
+			{
+				p1[ii]--;
+				if(p1[ii] == -1)
+				{
+					cout << 0;
+					valid = false;
+				}
+				ii--;
+			}
+			if(s[i] == '[')
+			{
+				ii++;
+				p2[ii]++;
+			}
+			if(s[i] == ']')
+			{
+				p2[ii]--;
+				if(p2[ii] == -1)
+				{
+					cout << 0;
+					valid = false;
+				}
+				ii--;
+			}
+			if(s[i] == '{')
+			{
+				ii++;
+				p3[ii]++;
+			}
+			if(s[i] == '}')
+			{
+				p3[ii]--;
+				if(p3[ii] == -1)
+				{
+					cout << 0;
+					valid = false;
+				}
+				ii--;
+			}
+		}
+		if(valid) cout << 1;
+		cout << '\n';
+	}
+}
