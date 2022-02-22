@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int n;
+int a[100], d = 0;
+
+main()
+{
+	tangToc;
+	int t;
+	cin >> t;
+	while(t--)
+	{
+		cin >> n;
+		if(n)
+		{
+			if(d)
+			{
+				cout << a[d] << ' ';
+				for(int i = 1; i < d; i++) cout << a[i] << ' ';
+				cout << '\n';
+				d--;
+			}
+			else
+			{
+			    cout << "-1\n";
+			    return 0;
+			}
+		}
+		else
+		{
+			int x;
+			cin >> x;
+			d++;
+			a[d] = x;
+			for(int i = 1; i <= d; i++) cout << a[i] << ' ';
+			cout << '\n';
+		}
+	}
+}
