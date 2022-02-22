@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int const A = 1e5;
+int n, cnt = 0;
+int p[A+1], q[A+1], s[A+1], d = 0, k = 1;
+
+main()
+{
+	tangToc;
+	cin >> n;
+	for(int i = 1; i <= n; i++) cin >> p[i], q[i] = i;
+	for(int i = 1; i <= n; i++)
+	{
+		while(p[i] > q[k] && k < n)
+		{
+			cnt++;
+			d++;
+			s[d] = q[k];
+			k++;
+		}
+		if(p[i] < q[k] || k == n + 1)
+		{
+			if(p[i] == s[d]) d--, k--;
+			else
+			{
+				cout << 0;
+				exit(0);
+			}
+		}
+		if(k <= n) k++;
+		cnt++;
+	}
+	cout << cnt;
+}
