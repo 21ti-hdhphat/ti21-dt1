@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int t, c[256], d;
+
+void pop()
+{
+	d--;
+}
+void push(int x)
+{
+	d++;
+	c[d] = x;
+}
+int top()
+{
+	return c[d];
+}
+
+main()
+{
+	tangToc;
+	
+	cin >> t; while(t--)
+	{
+		string s; cin >> s;
+		bool kiemTra = true;
+		
+		d = 0;
+		
+		int n = s.size();
+		for(int i = 0; i <= n && kiemTra; i++)
+			if(s[i] == '(' || s[i] == '{' || s[i] == '[')
+				push(s[i]);
+			else if(s[i] == ')')
+				if(top() == '(') pop();
+				else kiemTra = false;
+			else if(s[i] == ']')
+				if(top() == '[') pop();
+				else kiemTra = false;
+			else if(s[i] == '}')
+				if(top() == '{') pop();
+				else kiemTra = false;
+		if(kiemTra) cout << "1\n";
+		else cout << "0\n";
+	}
+}
