@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int const A = 1e5;
+string s;
+int k;
+//myStack()
+int ad = 0;
+char c[256];
+void push(int x)
+{
+	ad++;
+	c[ad] = x;
+}
+void pop()
+{
+	ad--;
+}
+int top()
+{
+	return c[ad];
+}
+bool empty()
+{
+	return ad != 0 ? false : true;
+}
+void tatCa()
+{
+	for(int i = 1; i <= ad; i++) cout << c[i];
+	cout << '\n';
+}
+
+main()
+{
+	tangToc;
+	cin >> s >> k;
+	push(s[0]);
+	for(int i = 1; i < s.size(); i++)
+	{
+		while(k > 0 && ad > 0 && s[i] > top())
+		{
+			pop();
+			k--;
+		}
+		push(s[i]);
+	}
+	while(k--) pop();
+	tatCa();
+}
