@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int const A = 1e5;
+int n;
+int a[100], ad = 0;
+
+void push(int x)
+{
+	ad++;
+	a[ad] = x;
+}
+void pop()
+{
+	ad--;
+}
+int top()
+{
+	return a[ad];
+}
+bool empty()
+{
+	return ad ? false : true;
+}
+void printAll()
+{
+	for(int i = 1; i <= ad; i++) cout << a[i] << ' ';
+	cout << '\n';
+}
+
+main()
+{
+	tangToc;
+	cin >> n;
+	while(n--)
+	{
+		bool op;
+		cin >> op;
+		if(op)
+		{
+			if(empty())
+			{
+				cout << -1;
+				exit(0);
+			}
+			cout << top() << ' ';
+			pop();
+			printAll();
+		}
+		else
+		{
+			int x; cin >> x;
+			push(x);
+			printAll();
+		}
+	}
+}
