@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int n, cnt = 0;
+int a[100001];
+stack<int> b;
+
+main()
+{
+	tangToc;
+	cin >> n;
+	for(int i = 1; i <= n; i++)
+	{
+		cin >> a[i];
+	}
+	int k = 1;
+	for(int i = 1; i <= n; i++)
+	{
+		while(k < a[i])
+		{
+			b.push(k);
+			k++;
+			cnt++;
+		}
+		if(k == a[i])
+		{
+			k++;
+			cnt++;
+			continue;
+		}
+		if(k > a[i])
+		{
+			if(b.top() == a[i])
+			{
+				b.pop();
+				cnt++;
+				continue;
+			}
+			else
+			{
+				cout << 0;
+				exit(0);
+			}
+		}
+	}
+	cout << cnt;
+}
