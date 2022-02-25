@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int const A = 1e5, B = 30000;
+
+struct myStack
+{
+	vector<int> a;
+	int d = 0;
+	void push(int x)
+	{
+		a.push_back(x);
+		d++;
+	}
+	void pop(){d--;}
+	int top(){return a[d];}
+	int size(){return d;}
+	void printStack()
+	{
+		for(int i = 1; i <= d; i++) cout << a[i] << "";
+	}
+};
+
+main()
+{
+	tangToc;
+	int t; cin >> t;
+	while(t--)
+	{
+		int n; cin >> n;
+		
+		vector<int> b(n+1, 0);
+		for(int i = 1; i <= n; i++)
+			cin >> b[i];
+		
+		ll res = b[1];
+		int l = 1, r = 1;
+		for(int i = 1; i <= n; i++)
+		{
+			int j = i;
+			while(b[j + 1] >= b[i] && j < n) j++;
+			
+			int k = i;
+			while(b[k - 1] >= b[i] && k > 1) k--;
+			
+			if(res < b[i] * (j - k + 1))
+			{
+				res = b[i] * (j - k + 1);
+				l = k;
+				r = j;
+			}
+		}
+		
+		cout << res << ' ' << l << ' ' << r << '\n';
+	}
+}
