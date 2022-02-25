@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int const A = 1e5, B = 30000;
+
+//Tạo Stack
+struct myStack
+{
+	int a[B+1];
+	int d = 0;
+  //Hàm thêm phần tử
+	void push(int x)
+	{
+		d++;
+		a[d] = x;
+	}
+  
+  //Hàm xóa phần tử trên cùng
+	void pop(){d--;}
+  
+  //Hàm lấy giá trị của phần tử trên cùng
+	int top(){return a[d];}
+  
+  //Hàm lấy độ dài stack
+	int size(){return d;}
+  
+  //Hàm in ra tất cả các phần tử của stack
+	void printStack(){for(int i = 1; i <= d; i++) cout << a[i] << "";}
+	
+  //Hàm xóa stack
+  void clear(){d = 0;}
+};
+
+main()
+{
+	tangToc;
+	int t; cin >> t;
+	while(t--)
+	{
+    //Nhập mảng A
+		int n; cin >> n;
+    vector<int> b(n+1, 0);
+		for(int i = 1; i <= n; i++)
+			cin >> b[i];
+		
+		myStack st;
+		vector<int> l(n+1), r(n+1);
+		
+    //Tính l[i]
+		for(int i = 1; i <= n; i++)
+		{
+			while(st.size() && b[st.top()] >= b[i]) st.pop();
+			if(st.size()) l[i] = st.top() + 1;
+			else l[i] = 1;
+			st.push(i);
+		}
+		
+		st.clear();
+		
+    //Tính r[i]
+		for(int i = n; i > 0; i--)
+		{
+			while(st.size() && b[st.top()] >= b[i]) st.pop();
+			if(st.size()) r[i] = st.top() - 1;
+			else r[i] = n;
+			st.push(i);
+		}
+		
+    //Tìm kết quả
+		int imax = 1;
+		for(int i = 2; i <= n; i++) if(b[imax] * 1ll * (r[imax] - l[imax] + 1) < b[i] * 1ll * (r[i] - l[i] + 1)) imax = i;
+		
+		cout << b[imax] * 1ll * (r[imax] - l[imax] + 1) << ' ' << l[imax] << ' ' << r[imax] << '\n';
+	}
+}
