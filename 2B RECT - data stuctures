@@ -1,0 +1,71 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define tangToc ios::sync_with_stdio(0); cin.tie(0)
+using namespace std;
+
+int const A = 1e5, B = 30000;
+
+main()
+{
+	tangToc;
+	int m, n; cin >> m >> n;
+	
+	vector<int> a(n+1), l1(n+1), l2(n+1), r1(n+1), r2(n+1);
+	for(int i = 1; i <= n; i++) cin >> a[i];
+	
+	stack<int> st1, st2;
+	
+	//Tính l1[i], l2[i]
+	for(int i = 1; i <= n; i++)
+	{
+		while(st1.size() && a[st1.top()] >= a[i]) st1.pop();
+		if(st1.size()) l1[i] = st1.top()+1;
+		else l1[i] = 1;
+		st1.push(i);
+		
+		while(st2.size() && a[st2.top()] <= a[i]) st2.pop();
+		if(st2.size()) l2[i] = st2.top()+1;
+		else l2[i] = 1;
+		st2.push(i);
+	}
+	
+	stack<int> st3, st4;
+	
+	//Tính r1[i], r2[i]
+	for(int i = n; i >= 1; i--)
+	{
+		while(st3.size() && a[st3.top()] >= a[i]) st3.pop();
+		if(st3.size()) r1[i] = st3.top()-1;
+		else r1[i] = n;
+		st3.push(i);
+		
+		while(st4.size() && a[st4.top()] <= a[i]) st4.pop();
+		if(st4.size()) r2[i] = st4.top()-1;
+		else r2[i] = n;
+		st4.push(i);
+	}
+	
+	//Tính kq
+	int x1 = 1, y1 = 1, x2 = 1, y2 = 1;
+	for(int i = 1; i <= n; i++)
+	{
+		if((x2 - x1 + 1) * 1ll * (y2 - y1 + 1) < a[i] * 1ll * (r1[i] - l1[i] + 1))
+		{
+			x1 = 1;
+			y1 = l1[i];
+			x2 = a[i];
+			y2 = r1[i];
+		}
+		if((x2 - x1 + 1) * 1ll * (y2 - y1 + 1) < (m - a[i]) * 1ll * (r2[i] - l2[i] + 1))
+		{
+			x1 = a[i] + 1;
+			y1 = l2[i];
+			x2 = m;
+			y2 = r2[i];
+		}
+	}
+	
+	cout << (x2 - x1 + 1) * 1ll * (y2 - y1 + 1) << '\n'
+	<< x1 << ' ' << y1 << '\n'
+	<< x2 << ' ' << y2;
+}
