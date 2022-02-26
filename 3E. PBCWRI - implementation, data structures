@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+int const A = 3*1e6+1;
+int g, S, bot = 1, top = 0, cnt = 0;
+char q[5000001];
+void push(char x)
+{
+	top++;
+	q[top] = x;
+}
+void pop()
+{
+	bot++;
+}
+int size()
+{
+	return top - bot + 1;
+}
+string W, s;
+vector<int> d(256, 0), e = d;
+
+main()
+{
+	ios::sync_with_stdio(0); cin.tie(0);
+	cin >> g >> S >> W >> s;
+	
+	for(int i = 0; i < g; i++)
+	{
+		e[W[i]]++;
+	}
+	
+	for(int i = 0; i < S; i++)
+	{
+		push(s[i]);
+		d[s[i]]++;
+		while(d[s[i]] > e[s[i]])
+		{
+			d[q[bot]]--;
+			pop();
+		}
+		if(size() == g) cnt++;
+	}
+	
+	cout << cnt;
+}
