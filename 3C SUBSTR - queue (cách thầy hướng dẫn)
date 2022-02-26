@@ -1,0 +1,29 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+string s;
+char q[100001];
+vector<int> d(265, 0);
+int top = 0, bot = 1, P = 1, L = 1;
+void push(char x){q[++top] = x;}
+void pop(){bot++;}
+int size(){return top - bot + 1;}
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> s;
+	for(int i = 0, n = s.size(); i < n; i++)
+	{
+		push(s[i]);
+		d[s[i]]++;
+		while(d[s[i]] > 1) d[q[bot]]--, pop();
+		int l = size();
+		if(l > L) L = l, P = bot;
+	}
+	
+	cout << P << ' ' << L;
+}
