@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+int q[1000001], top = 0, bot = 1;
+void push(int x)
+{
+	top++;
+	q[top] = x;
+}
+void pop()
+{
+	bot++;
+}
+int size()
+{
+	return top-bot+1;
+}
+void printQueue()
+{
+	for(int i = bot; i <= top; i++) cout << q[i] << ' ';
+}
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	int k;
+	cin >> k;
+	
+	while(k--)
+	{
+		int op;
+		cin >> op;
+		
+		if(op == 0)
+		{
+			int x;
+			cin >> x;
+			push(x);
+			printQueue();
+			cout << '\n';
+		}
+		else
+		{
+			if(size() == 0)
+			{
+				cout << -1;
+				break;
+			}
+			cout << q[bot] << ' ';
+			pop();
+			printQueue();
+			cout << '\n';
+		}
+	}
+}
