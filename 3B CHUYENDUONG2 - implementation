@@ -1,0 +1,43 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+bool check = true;
+int n, a[1001], q[1001], top = 0, bot = 1, cnt = 0;
+void push(int x) {q[++top] = x;}
+void pop() {bot++;}
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> n;
+	for(int i = 1; i <= n; i++) cin >> a[i];
+	
+	int k = 1;
+	for(int i = 1; i <= n; i++)
+	{
+		while(k < a[i])
+			push(k++), cnt++;
+		if(k > a[i])
+		{
+			if(q[bot] != a[i])
+			{
+				check = false;
+				break;
+			}
+			else
+			{
+				pop();
+				cnt++;
+				continue;
+			}
+		}
+		if(k == a[i])
+			k++, cnt++;
+	}
+	
+	if(check) cout << cnt;
+	else cout << 0;
+}
