@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+
+string s;
+int P = 1, L = 1, n;
+vector<bool> d(265, false);
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> s;
+	n = s.size();
+	
+	for(int i = 0; i < s.size(); i++)
+	{
+		d[s[i]] = true;
+		int j = i;
+		while(d[s[j+1]] == false && (j+1) < s.size()) j++, d[s[j]] = true;
+		int l = j-i+1;
+		if(l > L)
+		{
+			P = i+1;
+			L = l;
+		}
+		for(int k = i; k <= j; k++) d[s[k]] = false;
+	}
+	
+	cout << P << ' ' << L;
+}
