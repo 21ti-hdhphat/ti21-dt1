@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define lon(x, y) (x < y ? y : x);
+#define be(x, y) (x < y ? x : y);
+using namespace std;
+
+int m, n;
+vector<int> a(1e6+1, 0);
+
+bool thoaManDeBai(int mid);
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> m >> n;
+	for(int i = 1; i <= n; i++) cin >> a[i];
+	
+	int l = 1, r = n, res = 0;
+	while(l <= r)
+	{
+		int mid = (l + r) / 2;
+		if(thoaManDeBai(mid))
+		{
+			res = mid;
+			l = mid + 1;
+		}
+		else r = mid - 1;
+	}
+	
+	cout << res;
+}
+
+bool thoaManDeBai(int distance)
+{
+	int sumTmp = 0;
+	bool thoaMan = false;
+	
+	for(int i = 1; i <= distance; i++) sumTmp += a[i];
+	if(sumTmp <= m) thoaMan = true;
+	
+	for(int i = distance+1; i <= n && thoaMan == false; i++)
+	{
+		sumTmp += a[i];
+		sumTmp -= a[i-distance];
+		if(sumTmp <= m) thoaMan = true;
+	}
+	
+	return thoaMan;
+}
