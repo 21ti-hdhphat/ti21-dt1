@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define lon(x, y) (x > y ? x : y)
+#define be(x, y) (x < y ? x : y)
+using namespace std;
+
+int n, a[5*1000000+1];
+ll p, q, m, t, res = 0;
+deque<int> dq;
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> n >> p >> q >> m >> t;
+	
+	for(int i = 1; i <= n; i++)
+		a[i] = (p * 1ll * i + q) % m;
+		
+	int mx = 1, mn = 1, l = 1;
+	
+	for(int i = 1; i <= n; i++)
+	{
+		if(a[mx] < a[i]) mx = i;
+		if(a[mn] > a[i]) mn = i;
+		while(a[mx] - a[mn] > t)
+		{
+			mx = be(mx, mn) + 1;
+			l = mn = mx;
+			
+			for(int j = mn; j <= i; j++)
+			{
+				if(a[mx] < a[j]) mx = j;
+				if(a[mn] > a[j]) mn = j;
+			}
+		}
+		res += (i-l+1);
+	}
+	
+	cout << res;
+}
