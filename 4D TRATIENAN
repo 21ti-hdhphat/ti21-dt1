@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define be(x, y) (x < y ? x : y)
+using namespace std;
+
+int n, k;
+vector<int> a(1000001), b = a;
+deque<int> dq;
+
+
+int main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> n >> k;
+	for(int i = 1; i <= n; i++) cin >> a[i];
+	
+	sort(a.begin() + 1, a.begin() + 1 + n);
+	
+	for(int i = 2; i <= n; i++)
+		b[i] = a[i] -  a[i - 1];
+	
+	b[1] = INT_MAX;
+	ll res = INT_MAX;
+	
+	for(int i = 1; i <= n; i++)
+	{
+		while(!dq.empty() && b[i] <= b[dq.back()]) dq.pop_back();
+		dq.push_back(i);
+		if(i < n - k) continue;
+		while(dq.front() < i - (n - k) + 2) dq.pop_front();
+		res = be(b[dq.front()] + a[i] - a[i - (n - k) + 1], res);
+	}
+	
+	cout << res;
+}
