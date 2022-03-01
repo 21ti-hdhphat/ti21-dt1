@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define lon(x, y) (x > y ? x : y)
+#define be(x, y) (x < y ? x : y)
+using namespace std;
+
+int n, a[5*1000000+1];
+ll p, q, m, t, res = 0;
+deque<int> dqx, dqn;
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> n >> p >> q >> m >> t;
+	
+	for(int i = 1; i <= n; i++)
+		a[i] = (p * 1ll * i + q) % m;
+		
+	int i = 1;
+	for(int j = 1; j <= n; j++)
+	{
+		while(!dqx.empty() && a[j] >= a[dqx.back()]) dqx.pop_back();
+		dqx.push_back(j);
+			
+		while(!dqn.empty() && a[j] <= a[dqn.back()]) dqn.pop_back();
+		dqn.push_back(j);
+		
+		while(abs(a[dqx.front()] - a[dqn.front()]) > t)
+		{
+			i++;
+			if(i > dqx.front()) dqx.pop_front();
+			if(i > dqn.front()) dqn.pop_front();
+		}
+		
+		res += (j - i + 1);
+	}
+	
+	cout << res;
+}
