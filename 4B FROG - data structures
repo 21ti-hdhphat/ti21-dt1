@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define lon(x, y) (x > y ? x : y)
+#define be(x, y) (x < y ? x : y)
+using namespace std;
+
+int m, n, k;
+int dq[2001], top = 1000, bot = 1001;
+ll a[1001][3001], f[1001][3001], res = 0;
+
+void push_top(int x){dq[++top] = x;}
+void push_bot(int x){dq[--bot] = x;}
+void pop_top(){top--;}
+void pop_bot(){bot++;}
+int size(){return top-bot+1;}
+void clear(){top = 1000; bot = 1001;}
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> m >> n >> k;
+	
+	for(int i = 1; i <= m; i++)
+		for(int j = 1+1000; j <= n+1000; j++)
+			cin >> a[i][j];
+	
+	for(int i = 1+1000; i <= n+1000; i++) f[1][i] = a[1][i];
+	
+	for(int i = 2; i <= m; i++)
+	{
+		clear();
+		for(int j = 1+1000; j <= k+1000; j++)
+		{
+			while(size() > 0 && f[i-1][j] >= f[i-1][dq[top]]) pop_top();
+			push_top(j);
+		}
+		for(int j = 1+1000; j <= n+1000; j++)
+		{
+			while(size() > 0 && f[i-1][j+k] >= f[i-1][dq[top]]) pop_top();
+			push_top(j+k);
+			if(j-k-1 >= dq[bot]) pop_bot();
+			f[i][j] = f[i-1][dq[bot]] + a[i][j];
+		}
+	}
+	
+	for(int i = 1+1000; i <= n+1000; i++)
+		res = lon(res, f[m][i]);
+	
+	cout << res;
+}
