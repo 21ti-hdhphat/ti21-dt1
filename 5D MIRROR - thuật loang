@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int n, cnt = -4;
+char c[51][51];
+
+int h[] = {-1, 0, 1, 0}, v[] = {0, 1, 0, -1};
+void loang(int x, int y)
+{
+    c[x][y] = '~';
+    for(int i = 0; i < 4; i++)
+    {
+        char tmp = c[x + h[i]][y + v[i]];
+        if(tmp == '.')
+        {
+            loang(x + h[i], y + v[i]);
+        }
+        else if(tmp == '#') cnt++;
+    }
+}
+
+main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> n;
+    for(int i = 0; i <= n + 1; i++) c[i][0] = c[i][n+1] = c[0][i] = c[n+1][i] = '#';
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= n; j++)
+            cin >> c[i][j];
+
+    loang(1, 1);
+
+    cout << cnt*9;
+}
