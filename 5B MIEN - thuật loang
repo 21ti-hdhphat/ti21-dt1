@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int m, n, a[313][313], d[65432], res = 0, hang = 0, cot = 0, mien = 0;
+
+int h[] = {-1, 0, 1, 0}, v[] = {0, 1, 0, -1};
+void loang(int x, int y, int z)
+{
+    for(int i = 0; i < 4; i++)
+        if(a[x + h[i]][y + v[i]] == z)
+        {
+            d[z]++;
+            a[x + h[i]][y + v[i]] = 0;
+            loang(x + h[i], y + v[i], z);
+        }
+}
+
+main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+    cin >> m >> n;
+    for(int i = 1; i <= m; i++)
+        for(int j = 1; j <= n; j++)
+            cin >> a[i][j];
+    for(int i = 1; i <= m; i++) a[i][0] = a[i][n+1] = -1;
+    for(int j = 1; j <= n; j++) a[0][j] = a[m+1][j] = -1;
+    
+    for(int i = 1; i <= m; i++)
+        for(int j = 1; j <= n; j++)
+            if(a[i][j])
+            {
+                mien++;
+                int tmp = a[i][j];
+                a[i][j] = 0;
+                d[tmp] = 1;
+                a[i][j] = 0;
+                loang(i, j, tmp);
+                if(d[tmp] > res)
+                {
+                    res = d[tmp];
+                    hang = i;
+                    cot = j;
+                }
+            }
+            
+    cout << mien << '\n';
+    cout << res << '\n';
+    cout << "a[" << hang << ',' << cot << ']';
+}
