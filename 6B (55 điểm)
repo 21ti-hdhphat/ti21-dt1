@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+#define lon(x, y) ((x > y) ? x : y)
+#define be(x, y) ((x < y) ? x : y)
+#define ll long long
+using namespace std;
+int n, m, k, a[5002][5002], d[5002][5002], x2, y2, cnt = 0, res = INT_MAX;
+string s;
+bool safe = true;
+queue<int> xq, yq;
+
+int h[] = {-9, -1, 0, 1, 0}, v[] = {-9, 0, 1, 0, -1};
+void loang()
+{
+    while(!xq.empty())
+    {
+        int x = xq.front(), y = yq.front();
+        xq.pop();
+        yq.pop();
+        a[x][y] = 2;
+        for(int i = 1; i <= 4; i++)
+        {
+            int x1 = x + h[i], y1 = y + v[i];
+            if(x1 == x2 && y1 == y2)
+            {
+                if(res > (d[x][y] + 1)) res = d[x][y] + 1;
+                return;
+            }
+            else if(a[x1][y1] == 1)
+            {
+                xq.push(x1);
+                yq.push(y1);
+                d[x1][y1] = d[x][y] + 1;
+            }
+        }
+    }
+}
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
+    cin >> n >> m >> k;
+    for(int i = 1; i <= n; i++)
+        for(int j = 1; j <= m; j++)
+            a[i][j] = 1;
+    for(int i = 0; i <= n+1; i++) a[i][0] = a[i][m+1] = -1;
+    for(int j = 1; j <= m; j++) a[0][j] = a[n+1][j] = -1;
+    while(k--)
+    {
+        int x, y;
+        cin >> x >> y;
+        a[x][y] = -1;
+    }
+    /*
+    for(int i = 0; i <= n + 1; i++)
+    {
+        for(int j = 0; j <= m + 1; j++)
+            cout << a[i][j] << ' ';
+        cout << '\n';
+    }
+    */
+
+    cin >> s;
+    x2 = 1, y2 = 1;
+    for(int i = 0; i < s.size(); i++)
+    {
+        if(s[i] == 'U') x2--;
+        else if(s[i] == 'R') y2++;
+        else if(s[i] == 'D') x2++;
+        else if(s[i] == 'L') y2--;
+        if(a[x2][y2] == -1) safe = false;
+    }
+    if(safe)
+    {
+        xq.push(1);
+        yq.push(1);
+        d[1][1] = 0;
+        loang();
+        a[1][1] = 2;
+        //cout << res << '\n';
+        cout << x2 << ' ' << y2 << '\n';
+        if(res < s.size()) cout << "NO";
+        else cout << "YES";
+        /*
+        cout << '\n';
+        while(x2 != 1 || y2 != 1)
+        {
+            int i = p[x2][y2];
+            cout << i << ' ' << x2 << ' ' << y2 << '\n';
+            x2 -= h[i];
+            y2 -= v[i];
+        }
+        */
+    }
+    else cout << "-1 -1 \nERROR";
+}
