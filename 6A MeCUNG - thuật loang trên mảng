@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+#define lon(x, y) ((x > y) ? x : y)
+#define be(x, y) ((x < y) ? x : y)
+#define ll long long
+using namespace std;
+
+int m, n, u1, v1, res = 0, op[102][102], u2, v2;
+char a[102][102];
+deque<pair<int, int>> q;
+deque<int> cnt;
+
+int h[] = {100, -1, 0, 1, 0}, v[] = {100, 0, 1, 0, -1};
+void loang(int x, int y)
+{
+    int curCnt;
+    if(cnt.empty()) curCnt = 1;
+    else curCnt = cnt.front();
+    if(!q.empty()) q.pop_front(), cnt.pop_front();
+    for(int i = 1; i <= 4; i++)
+    {
+        char tmp = a[x + h[i]][y + v[i]];
+        if(tmp == '.' && op[x + h[i]][y + v[i]] == 0)
+        {
+            op[x + h[i]][y + v[i]] = i;
+            q.push_back({x + h[i], y + v[i]});
+            cnt.push_back(curCnt + 1);
+        }
+        else if(tmp == 'f')
+        {
+            if(res == 0 || res > curCnt)
+            {
+                res = curCnt;
+                u2 = x;
+                v2 = y;
+            }
+        }
+    }
+    if(!q.empty()) loang(q.front().first, q.front().second);
+}
+
+main()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+
+    cin >> m >> n;
+    for(int i = 1; i <= m; i++)
+        for(int j = 1; j <= n; j++)
+        {
+            cin >> a[i][j];
+            if(a[i][j] == 'E')
+            {
+                u1 = i;
+                v1 = j;
+            }
+        }
+    for(int i = 0; i <= m+1; i++) a[i][0] = a[i][n+1] = 'f';
+    for(int j = 1; j <= n; j++) a[0][j] = a[m+1][j] = 'f';
+    loang(u1, v1);
+
+    cout << res;
+    stack<pair<int, int>> ans;
+    while((u2 != u1 || v2 != v1) && res)
+    {
+        ans.push({u2, v2});
+        if(op[u2][v2] == 1)
+        {
+            u2++;
+        }
+        else if(op[u2][v2] == 2)
+        {
+            v2--;
+        }
+        else if(op[u2][v2] == 3)
+        {
+            u2--;
+        }
+        else if(op[u2][v2] == 4)
+        {
+            v2++;
+        }
+    }
+    if(res) cout << '\n' << u1 << ' ' << v1;
+    while(!ans.empty())
+    {
+        cout << '\n' << ans.top().first << ' ' << ans.top().second;
+        ans.pop();
+    }
+}
