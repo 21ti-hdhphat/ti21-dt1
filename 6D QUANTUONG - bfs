@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+#define lon(x, y) ((x > y) ? x : y)
+#define be(x, y) ((x < y) ? x : y)
+#define ll long long
+using namespace std;
+
+int n, m, p, q, s, t, h[] = {4, -1, -1, 1, 1}, v[] = {4, -1, 1, 1, -1};
+char a[202][202];
+int d[202][202];
+queue<int> qx, qy;
+
+void nhap();
+void bfs();
+
+main()
+{
+	nhap();
+	bfs();
+}
+
+void nhap()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> n >> m >> p >> q >> s >> t;
+	
+	for(int i = 0; i <= n+1; i++) a[i][0] = a[0][i] = a[n+1][i] = a[i][n+1] = '#';
+	for(int i = 1; i <= n; i++)
+		for(int j = 1; j <= n; j++)
+			a[i][j] = '~', d[i][j] = 0;
+			
+	a[s][t] = '$';
+	a[p][q] = '%';
+	
+	int x, y;		
+	while(m--)
+	{
+		cin >> x >> y;
+		a[x][y] = '#';
+	}
+			
+//	for(int i = 0; i++ <= n + 1; cout << '\n')
+//		for(int j = 0; j <= n + 1; j++)
+//			cout << a[i-1][j];
+}
+
+void bfs()
+{
+	if((p + q + s + t) % 2)
+	{
+		cout << -1;
+		return;
+	}
+	
+	int x, y, i, j;
+	qx.push(p);
+	qy.push(q);
+	while(!qx.empty())
+	{
+		x = qx.front();
+		y = qy.front();
+		qx.pop();
+		qy.pop();
+		for(int k = 1; k <= 4; k++)
+		{
+			i = x + h[k];
+			j = y + v[k];
+			while(a[i][j] != '#')
+			{
+				if(a[i][j] == '~')
+				{
+					a[i][j] = '%';
+					qx.push(i);
+					qy.push(j);
+					d[i][j] = d[x][y] + 1;
+				}
+				else if(a[i][j] == '$')
+				{
+					d[i][j] = d[x][y] + 1;
+					cout << d[i][j];
+					return;
+				}
+				i += h[k];
+				j += v[k];
+			}
+		}
+	}
+}
