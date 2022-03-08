@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+#define lon(x, y) ((x > y) ? x : y)
+#define be(x, y) ((x < y) ? x : y)
+#define ll long long
+using namespace std;
+
+int n, m, a[102][102], d[102][102], p, q, s, t, h[] = {0, -1, 0, 1, 0}, v[] = {0, 0, 1, 0, -1};
+queue<int> qx, qy;
+
+void nhap();
+void bfs();
+
+main()
+{
+	nhap();
+	bfs();
+}
+
+void nhap()
+{
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	
+	cin >> n >> m;
+	for(int i = 1; i <= n; i++)
+		for(int j = 1; j <= m; j++)
+			cin >> a[i][j], d[i][j] = 0;
+	for(int i = 0; i <= n + 1; i++) a[i][0] = a[i][m+1] = 2;
+	for(int j = 1; j <= m; j++) a[0][j] = a[n+1][j] = 2;
+	
+	cin >> p >> q >> s >> t;
+	a[p][q] = 6;
+	a[s][t] = 9;
+	
+	//for(int i = 0; i++ <= n + 1; cout << '\n') for(int j = 0; j <= m + 1; j++) cout << a[i-1][j];
+}
+
+void bfs()
+{
+	int x, y, i, j;
+	qx.push(p);
+	qy.push(q);
+	while(!qx.empty())
+	{
+		x = qx.front(); qx.pop();
+		y = qy.front(); qy.pop();
+		for(int k = 1; k <= 4; k++)
+		{
+			i = x + h[k]; j = y + v[k];
+			while(a[i][j] == 0 || a[i][j] == 9)
+			{
+				if(a[i][j] == 0)
+				{
+					a[i][j] = 3;
+					d[i][j] = d[x][y] + 1;
+					qx.push(i);
+					qy.push(j);
+				}
+				if(a[i][j] == 9)
+				{
+					cout << d[x][y];
+					return;
+				}
+				i += h[k]; j += v[k];
+			}
+		}
+	}
+	cout << -1;
+}
